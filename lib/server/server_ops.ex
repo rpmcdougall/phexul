@@ -2,8 +2,12 @@ defmodule ServerOps do
   alias Consul.HTTP.Raw, as: ConsulRaw
 
   def get_server(server_name) do
-    %Consul.KV{value: server_config} = Consul.KV.get("server/config/#{server_name}.json")
-    server_config
+    try do
+      %Consul.KV{value: server_config} = Consul.KV.get("server/config/#{server_name}.json")
+      server_config
+    rescue
+      ArgumentError -> :error
+    end
   end
 
   def create_server(%Server{hostname: hostname} = server_config) do
@@ -12,12 +16,18 @@ defmodule ServerOps do
     get_server(hostname)
   end
 
-  def update_server(%Server{hostname: hostname} = updated_config) do
-    ConsulRaw.kv_put("server/config/#{hostname}.json", updated_config)
+  def update_server(hostname, config) do
+    ConsulRaw.kv_put("server/config/#{hostname}.json", config)
     get_server(hostname)
   end
 
   def delete_server(server_name) do
-    ConsulRaw.kv_delete("server/config/#{server_name}.json")
+    %HTTPoison.Response{status_code: status} =
+      ConsulRaw.kv_delete("server/config/#{server_name}.json")
+
+    case status do
+      200 -> :ok
+      _ -> :error
+    end
   end
 end
