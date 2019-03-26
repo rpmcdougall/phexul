@@ -1,18 +1,40 @@
 # Phexul
 
+ph (Phoenix) ex (elixir) ul (consul) is a demo application for me to learn some Phoenix and Elixir using some familiarity I have with Consul.
+
+This api will take some server config and store it as a KV pair in Consul to which you can also read back, update or delete.
+
+### Endpoints
+
+| Path                     | Method | Description                                            |
+| ------------------------ | ------ | ------------------------------------------------------ |
+| /api/config/:server_name | GET    | Returns a server config                                |
+| /api/config              | POST   | Creates a new server config (Requires Body)            |
+| /api/config/:server_name | PUT    | Updates a server config with a new one (Requires Body) |
+| /api/config/:server_name | DELETE | Removes a server config                                |
+
+A sample config body might look like:
+
+```
+{
+	"hostname": "serv3",
+	"ip_addr": "192.168.2.25",
+	"os": "cent7",
+	"owner": "admin",
+	"role": "web"
+}
+```
+
+## Todo
+
+- Add Tests
+- Register Consul Services to monitor real servers with health checks
+- Setup CI
+- Deploy somewhere?
+
+## Usage
+
 To start your Phoenix server:
 
-  * Install dependencies with `mix deps.get`
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+- Install dependencies with `mix deps.get`
+- Start Phoenix endpoint with `mix phx.server`
