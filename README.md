@@ -1,6 +1,6 @@
 # Phexul
 
-ph (Phoenix) ex (elixir) ul (consul) is a demo application for me to learn some Phoenix and Elixir using some familiarity I have with Consul.
+**ph** (_Phoenix_) **ex** (_elixir_) **ul** (_Consul_) is a demo application for me to learn some Phoenix and Elixir using some familiarity I have with Consul.
 
 This api will take some server config and store it as a KV pair in Consul to which you can also read back, update or delete.
 
