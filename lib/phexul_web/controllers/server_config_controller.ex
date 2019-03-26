@@ -6,9 +6,8 @@ defmodule PhexulWeb.ServerConfigController do
   end
 
   def create_server_config(conn, params) do
-    server_config =
-      %Server{}
-      |> Map.merge(params)
+    config_with_atom_keys = Util.convert_keys_to_atoms(params)
+    server_config = struct(Server, config_with_atom_keys)
 
     json(conn, ServerOps.create_server(server_config))
   end
@@ -23,21 +22,22 @@ defmodule PhexulWeb.ServerConfigController do
       :error ->
         conn
         |> put_status(:not_found)
-        |> json(%{status: "Config not found"})
+        |> json(%{error: "Config not found"})
+
+      _ ->
+        :ok
     end
 
     status = ServerOps.delete_server(server_name)
 
     case status do
       :ok ->
-        conn
-        |> put_status(:no_content)
-        |> json("")
+        send_resp(conn, :no_content, "")
 
       :error ->
         conn
         |> put_status(:internal_server_error)
-        |> json(%{error: "Could not delete config."})
+        |> json(%{error: "Could not delete due to internal server issue."})
     end
   end
 end
