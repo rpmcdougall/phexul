@@ -19,7 +19,7 @@ defmodule Phexul.MixProject do
   def application do
     [
       mod: {Phexul.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :consul]
     ]
   end
 
@@ -36,7 +36,9 @@ defmodule Phexul.MixProject do
       {:phoenix_pubsub, "~> 1.1"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:poison, "~> 3.1"},
+      {:consul, "~> 0.1.3", hex: :consul_client}
     ]
   end
 end
