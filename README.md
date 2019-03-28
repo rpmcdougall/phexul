@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/rpmcdougall/phexul/tree/master.svg?style=svg)](https://circleci.com/gh/rpmcdougall/phexul/tree/master)
+
 # Phexul
 
 **ph** (**_Phoenix_**) **ex** (**_Elixir_**) **ul** (**_Consul_**) is a demo application for me to learn some Phoenix and Elixir using some familiarity I have with Consul.
