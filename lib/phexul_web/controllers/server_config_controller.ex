@@ -1,6 +1,10 @@
 defmodule PhexulWeb.ServerConfigController do
   use PhexulWeb, :controller
 
+  def watch_helper(conn, params) do
+    json(conn, %{check: "success"})
+  end
+
   def get_server_config(conn, %{"server_name" => server_name}) do
     json(conn, ServerOps.get_server(server_name))
   end

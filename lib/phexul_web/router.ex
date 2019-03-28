@@ -5,6 +5,10 @@ defmodule PhexulWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/" do
+    post "/watch", PhexulWeb.ServerConfigController, :watch_helper
+  end
+
   scope "/api" do
     pipe_through :api
 
