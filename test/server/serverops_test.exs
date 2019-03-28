@@ -36,6 +36,11 @@ defmodule ServerOpsTest do
     assert hostname == "serv99"
   end
 
+  test "get_server will sucessfully error on a missing config" do
+    status = ServerOps.get_server("tHisSeRvErDoEsNoTeXiSt")
+    assert status == :error
+  end
+
   test "delete_server will sucessfully remove a server" do
     mock_serv = %Server{
       hostname: "serv99",
