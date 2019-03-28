@@ -41,6 +41,7 @@ mix test
 
 ## Todo
 
+- **Build shim around Consul client to allow mocking for unit tests**
 - Register Consul Services to monitor real servers with health checks
 - Setup CI
 - Deploy somewhere?
