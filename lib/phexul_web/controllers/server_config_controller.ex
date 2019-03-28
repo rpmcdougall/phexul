@@ -2,7 +2,15 @@ defmodule PhexulWeb.ServerConfigController do
   use PhexulWeb, :controller
 
   def get_server_config(conn, %{"server_name" => server_name}) do
-    json(conn, ServerOps.get_server(server_name))
+    case server_config = ServerOps.get_server(server_name) do
+      :error ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Config not found."})
+
+      _ ->
+        json(conn, server_config)
+    end
   end
 
   def create_server_config(conn, params) do
@@ -12,19 +20,28 @@ defmodule PhexulWeb.ServerConfigController do
     json(conn, ServerOps.create_server(server_config))
   end
 
-  def update_server_config(conn, %{"server_name" => server_name}) do
-    %{body_params: body} = conn
+  def update_server_config(%{body_params: body} = conn, %{"server_name" => server_name}) do
+    case Util.config_exists?(server_name) do
+      :config_not_found ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Config not found."})
+
+      :exists ->
+        :ok
+    end
+
     json(conn, ServerOps.update_server(server_name, Poison.encode!(body)))
   end
 
   def delete_server_config(conn, %{"server_name" => server_name}) do
-    case ServerOps.get_server(server_name) do
-      :error ->
+    case Util.config_exists?(server_name) do
+      :config_not_found ->
         conn
         |> put_status(:not_found)
-        |> json(%{error: "Config not found"})
+        |> json(%{error: "Config not found."})
 
-      _ ->
+      :exists ->
         :ok
     end
 
@@ -32,7 +49,9 @@ defmodule PhexulWeb.ServerConfigController do
 
     case status do
       :ok ->
-        send_resp(conn, :no_content, "")
+        conn
+        |> put_status(:no_content)
+        |> json("")
 
       :error ->
         conn
