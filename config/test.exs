@@ -8,3 +8,5 @@ config :phexul, PhexulWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :phexul, :consul_shim, ConsulShim.UnderTest

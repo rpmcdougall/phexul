@@ -1,4 +1,4 @@
-defmodule ConsulShim do
+defmodule ConsulShim.Live do
   alias Consul.HTTP.Raw, as: ConsulRaw
 
   def getkv(key) do

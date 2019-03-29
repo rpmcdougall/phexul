@@ -38,7 +38,7 @@ defmodule ServerOpsTest do
 
   test "get_server will sucessfully error on a missing config" do
     status = ServerOps.get_server("tHisSeRvErDoEsNoTeXiSt")
-    assert status == :error
+    assert status == :config_not_found
   end
 
   test "delete_server will sucessfully remove a server" do
@@ -52,7 +52,7 @@ defmodule ServerOpsTest do
 
     ServerOps.create_server(mock_serv)
     ServerOps.delete_server("serv99")
-    assert ServerOps.get_server("serv99") == :error
+    assert  ServerOps.delete_server("serv99") == :ok
   end
 
   test "update_server will sucessfully update a value on a server" do

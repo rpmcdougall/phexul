@@ -38,7 +38,8 @@ defmodule Phexul.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:poison, "~> 3.1"},
-      {:consul, "~> 0.1.3", hex: :consul_client}
+      {:consul, "~> 0.1.3", hex: :consul_client},
+      {:mox, "~> 0.5", only: :test}
     ]
   end
 end
