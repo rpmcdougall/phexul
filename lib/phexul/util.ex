@@ -5,12 +5,12 @@ defmodule Util do
     end
   end
 
+  @spec config_exists?(any()) :: :config_not_found | :exists
   def config_exists?(server_name) do
-    case ServerOps.get_server(server_name) do
+    case ConsulShim.getkv("server/config/#{server_name}.json") do
       :error ->
         :config_not_found
-
-      _ ->
+      %{} ->
         :exists
     end
   end

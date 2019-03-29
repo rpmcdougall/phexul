@@ -22,11 +22,25 @@ defmodule ConsulShim do
     end
   end
 
-  def putkv(key, data) do
-    try do
-      ConsulRaw.kv_put(key, data)
-    rescue
-      ArgumentError -> :error
+  def updatekv(key, %Server{hostname: hostname} = data) do
+    enc_config = Poison.encode!(data)
+    case Util.config_exists?(hostname) do
+      :exists ->
+          ConsulRaw.kv_put(key, enc_config)
+          :ok
+      :config_not_found ->
+        :config_not_found
+      end
     end
-  end
+
+  def createkv(key, %Server{hostname: hostname} = data) do
+      enc_config = Poison.encode!(data)
+      case Util.config_exists?(hostname) do
+        :exists ->
+          :exists
+        :config_not_found ->
+          ConsulRaw.kv_put(key, enc_config)
+          :ok
+      end
+    end
 end
