@@ -2,12 +2,6 @@ defmodule ServerOpsTest do
   use ExUnit.Case
   doctest Util
 
-  # "setup" is called before each test
-  setup do
-    on_exit(fn ->
-      Consul.HTTP.Raw.kv_delete("/server/config/serv99.json")
-    end)
-  end
 
   test "create server successfully creates a server config" do
     mock_serv = %Server{
