@@ -29,12 +29,6 @@ A sample config body might look like:
 
 ## Running tests
 
-Tests currently require a runnining instance of Consul. You can start up a Consul instance with the included docker compose file by running:
-
-```
-docker-compose up -d
-```
-
 Tests can be run with
 
 ```
@@ -43,9 +37,7 @@ mix test
 
 ## Todo
 
-- **Build shim around Consul client to allow mocking for unit tests**
 - Register Consul Services to monitor real servers with health checks
-- Setup CI
 - Deploy somewhere?
 
 ## Usage

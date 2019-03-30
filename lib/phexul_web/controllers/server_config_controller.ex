@@ -3,7 +3,7 @@ defmodule PhexulWeb.ServerConfigController do
 
   def get_server_config(conn, %{"server_name" => server_name}) do
     case server_config = ServerOps.get_server(server_name) do
-      :error ->
+      :config_not_found ->
         conn
         |> put_status(:not_found)
         |> json(%{error: "Config not found."})
@@ -13,25 +13,35 @@ defmodule PhexulWeb.ServerConfigController do
     end
   end
 
-  def create_server_config(conn, params) do
+  def create_server_config(conn, %{"hostname" => hostname } = params) do
     config_with_atom_keys = Util.convert_keys_to_atoms(params)
     server_config = struct(Server, config_with_atom_keys)
 
-    json(conn, ServerOps.create_server(server_config))
+    case ServerOps.create_server(server_config) do
+      :exists ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{error: "Config already exists."})
+      %{} ->
+        json(conn, ServerOps.get_server(hostname))
+    end
+
+
   end
 
   def update_server_config(%{body_params: body} = conn, %{"server_name" => server_name}) do
-    case Util.config_exists?(server_name) do
-      :config_not_found ->
-        conn
-        |> put_status(:not_found)
-        |> json(%{error: "Config not found."})
 
-      :exists ->
-        :ok
-    end
+    config_with_atom_keys = Util.convert_keys_to_atoms(body)
+    server_config = struct(Server, config_with_atom_keys)
 
-    json(conn, ServerOps.update_server(server_name, Poison.encode!(body)))
+      case data = ServerOps.update_server(server_name, server_config) do
+        :config_not_found ->
+          conn
+          |> put_status(:not_found)
+          |> json(%{error: "Config not found."})
+        _ ->
+          json(conn, data)
+      end
   end
 
   def delete_server_config(conn, %{"server_name" => server_name}) do
