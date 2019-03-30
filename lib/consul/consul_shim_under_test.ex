@@ -1,7 +1,5 @@
 defmodule ConsulShim.UnderTest do
-
   def getkv(key) do
-
     if String.contains?(key, "serv99") do
       %{
         "hostname" => "serv99",
@@ -13,12 +11,10 @@ defmodule ConsulShim.UnderTest do
     else
       :error
     end
-
-
   end
 
   def deletekv(_key) do
-   :ok
+    :ok
   end
 
   def updatekv(_key, %Server{hostname: _hostname} = _data) do
@@ -28,5 +24,4 @@ defmodule ConsulShim.UnderTest do
   def createkv(_key, %Server{hostname: _hostname} = _data) do
     :ok
   end
-
 end

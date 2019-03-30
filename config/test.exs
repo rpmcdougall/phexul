@@ -10,4 +10,3 @@ config :phexul, PhexulWeb.Endpoint,
 config :logger, level: :warn
 
 config :phexul, :consul_shim, ConsulShim.UnderTest
-

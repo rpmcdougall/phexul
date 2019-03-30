@@ -24,23 +24,27 @@ defmodule ConsulShim.Live do
 
   def updatekv(key, %Server{hostname: hostname} = data) do
     enc_config = Poison.encode!(data)
+
     case Util.config_exists?(hostname) do
       :exists ->
-          ConsulRaw.kv_put(key, enc_config)
-          :ok
+        ConsulRaw.kv_put(key, enc_config)
+        :ok
+
       :config_not_found ->
         :config_not_found
-      end
     end
+  end
 
   def createkv(key, %Server{hostname: hostname} = data) do
-      enc_config = Poison.encode!(data)
-      case Util.config_exists?(hostname) do
-        :exists ->
-          :exists
-        :config_not_found ->
-          ConsulRaw.kv_put(key, enc_config)
-          :ok
-      end
+    enc_config = Poison.encode!(data)
+
+    case Util.config_exists?(hostname) do
+      :exists ->
+        :exists
+
+      :config_not_found ->
+        ConsulRaw.kv_put(key, enc_config)
+        :ok
     end
+  end
 end

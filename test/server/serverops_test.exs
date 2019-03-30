@@ -2,7 +2,6 @@ defmodule ServerOpsTest do
   use ExUnit.Case
   doctest Util
 
-
   test "create server successfully creates a server config" do
     mock_serv = %Server{
       hostname: "serv99",
@@ -46,7 +45,7 @@ defmodule ServerOpsTest do
 
     ServerOps.create_server(mock_serv)
     ServerOps.delete_server("serv99")
-    assert  ServerOps.delete_server("serv99") == :ok
+    assert ServerOps.delete_server("serv99") == :ok
   end
 
   test "update_server will sucessfully update a value on a server" do
