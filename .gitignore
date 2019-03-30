@@ -35,3 +35,4 @@ phexul-*.tar
 # variables.
 /config/*.secret.exs
 .elixir_ls
+.vscode
